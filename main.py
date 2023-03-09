@@ -6,7 +6,6 @@ app = Flask(__name__)
 def test(num_one, num_two):
     return 'Результат сложения' + str(int(num_one) + int(num_two))
 
-
 @app.route('/string/<str_one>/<str_two>/<str_three>')
 def string(str_one, str_two, str_three):
     abc = ''
