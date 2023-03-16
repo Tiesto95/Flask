@@ -1,17 +1,17 @@
 # Задача 1
-# from contextlib import contextmanager
-#
-# class Lock(object):
-#     def __init__(self):
-#         self.lock = False
-#
-# @contextmanager
-# def lock_on(some_true):
-#     some_true.lock = True
-#     yield some_true
-#
-# with lock_on(Lock):
-#     print(Lock.lock)
+from contextlib import contextmanager
+
+class Lock(object):
+    def __init__(self):
+        self.lock = False
+
+@contextmanager
+def lock_on(some_true):
+    some_true.lock = True
+    yield some_true
+
+with lock_on(Lock):
+    print(Lock.lock)
 
 # Задача 2
 # from contextlib import contextmanager
