@@ -7,6 +7,9 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
 
+    def __str__(self):
+        return '<User %r id - %s>' % (self.username, self.id)
+
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -16,3 +19,6 @@ class Post(db.Model):
     content = db.Column(db.String(3000), nullable=False)
     date_created = db.Column(db.Date, default=date.today())
     is_visable = db.Column(db.Boolean, default=True, nullable=False)
+
+    def __str__(self):
+        return '<Post %r, user_id %s>'.format(self.title, self.user_id)
