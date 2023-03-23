@@ -1,6 +1,6 @@
 
 
-from flask import Flask
+from flask import Flask, request, render_template, flash
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -12,8 +12,8 @@ db = SQLAlchemy(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    from sqlalchemy_example.models import Post, User
-    from sqlalchemy_example.forms import PostForm
+    from models.flask_md_db import Post, User
+    from form.flash_form import PostForm
 
     if request.method == 'POST':
         print(request.form)
@@ -25,12 +25,13 @@ def index():
             db.session.commit()
 
             flash('Post created!')
+            print('1')
         else:
             flash('Form is not valid! Post was not created.')
             flash(str(form.errors))
 
     posts = Post.query.all()
-    user = User.query.filter(id = posts[0].user_id)
+    print(posts[0].user_id)
     user = posts[0].user
 
     for post in posts:
@@ -54,14 +55,11 @@ def populate_db():
 
 if __name__ == '__main__':
     from models.flask_md_db import *
-
-
-
     db.create_all()
 
-    print(User.query.count())
     if User.query.count() == 0:
         populate_db()
-    print(User.query.count())
+    user_test = User.query.all()
+
     app.run(debug=True)
 
