@@ -30,18 +30,37 @@ def index():
             flash('Form is not valid! Post was not created.')
             flash(str(form.errors))
 
-    posts = Post.query.all()
-    print(posts[0].user_id)
-    user = posts[0].user
+        posts = Post.query.all()
+        print(posts[0].user_id)
+        user = posts[0].user
 
-    for post in posts:
-        user_id = post.user_id
-        user = User.query.filter_by(id=user_id).first()
-        print(post.user_id, user)
+        for post in posts:
+            user_id = post.user_id
+            user = User.query.filter_by(id=user_id).first()
+            print(post.user_id, user)
+            print(post.user)
 
-        print(post.user)
+        return render_template('home.txt', posts=posts)
+    elif request.method == 'GET':
+        content = GuessBookItem.query.all()
+        result = ''
+        for item in content:
+            result += f"| {str(item.id)} | {str(item.author)} | {str(item.text)} | {str(item.date_created)} \n"
+        return result
 
-    return render_template('home.txt', posts=posts)
+@app.route('/create', methods=['POST'])
+def guess_new():
+    if request.method == 'POST':
+        from models.flask_md_db import GuessBookItem
+        from form.flash_form import GuessBookForm
+        form = GuessBookForm(request.form)
+        if form.validate():
+            new_top = GuessBookItem(**form.data)
+            db.session.add(new_top)
+            db.session.commit()
+            return 'Post created'
+        else:
+            return form.errors
 
 
 def populate_db():
